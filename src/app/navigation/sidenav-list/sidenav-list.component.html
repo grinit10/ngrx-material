@@ -1,0 +1,20 @@
+<mat-nav-list>
+  <a mat-list-item routerLink='/signup' fxLayout fxLayoutGap="20px" (click)='sidenavElement.close()'>
+    <mat-icon>face</mat-icon>
+    <span>&nbsp;Signup</span>
+  </a>
+  <a mat-list-item routerLink='/signin' fxLayoutGap="20px" (click)='sidenavElement.close()'>
+    <mat-icon>input</mat-icon>
+    <span>&nbsp;Login</span>
+  </a>
+  <a mat-list-item routerLink='/training' fxLayoutGap="20px" (click)='sidenavElement.close()'>
+    <mat-icon>fitness_center</mat-icon>
+    <span>&nbsp;Trainings</span>
+  </a>
+  <div>
+    <button mat-icon-button fxFlex fxLayoutAlign="center" (click)='sidenavElement.close()'>
+      <mat-icon>power_settings_new</mat-icon>
+      <span>&nbsp;Logout</span>
+    </button>
+  </div>
+</mat-nav-list>

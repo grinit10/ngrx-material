@@ -1,0 +1,15 @@
+a {
+  color: azure;
+  text-decoration: none;
+  align-self: flex-end;
+}
+
+a:hover, a:active {
+  color: lightgray;
+}
+
+.navigation-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
