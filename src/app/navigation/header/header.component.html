@@ -8,14 +8,17 @@
     <div>LOGO</div>
     <div fxHide.xs fxFlex fxLayout='row' fxLayoutAlign="end">
       <ul fxLayout fxLayoutGap="10px" class='navigation-items'>
-        <li>
+        <li *ngIf="!isAuth">
           <a routerLink='/signup' fxLayoutGap="20px">Signup</a>
         </li>
-        <li>
+        <li *ngIf="!isAuth">
           <a routerLink='/signin' fxLayoutGap="20px">Signin</a>
         </li>
-        <li>
+        <li *ngIf="isAuth">
           <a routerLink='/training' fxLayoutGap="20px">Trainings</a>
+        </li>
+        <li *ngIf="isAuth">
+          <a>Logout</a>
         </li>
       </ul>
     </div>
