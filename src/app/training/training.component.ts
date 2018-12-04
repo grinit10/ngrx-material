@@ -1,3 +1,4 @@
+import { Training } from './../shared/models/Training';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./training.component.css']
 })
 export class TrainingComponent implements OnInit {
+  public newTraining: Training;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  addNewTraining = (training: Training) => {
+    this.newTraining = training;
   }
 
+  stoppedTraining = (training: Training) => {
+    this.newTraining = training;
+  }
 }
