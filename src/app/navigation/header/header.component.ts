@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Input()
   sidenavElement: MatSidenav;
-  private isAuth = false;
+  public isAuth = false;
   private isauthSubscription: Subscription;
 
   constructor(private _authService: AuthService) { }
@@ -25,5 +25,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.isauthSubscription.unsubscribe();
+  }
+
+  logout = () => {
+    this._authService.logout();
   }
 }

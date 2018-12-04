@@ -1,5 +1,7 @@
-import { Training } from './../../shared/models/Training';
+import { TrainingService } from './../training.service';
+import { Exercise } from '../../shared/models/Exercise';
 import { Component, OnInit, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Guid } from 'guid-typescript';
 
 @Component({
   selector: 'app-new-training',
@@ -8,18 +10,22 @@ import { Component, OnInit, Output, EventEmitter, ElementRef } from '@angular/co
 })
 export class NewTrainingComponent implements OnInit {
 
-  public training: Training;
+  public training: Exercise;
+  public exercises: Exercise[];
   @Output()
-  trainingStart: EventEmitter<Training> = new EventEmitter<Training>();
-  constructor() {
+  trainingStart: EventEmitter<Exercise> = new EventEmitter<Exercise>();
+  constructor(private _trainingService: TrainingService) {
   }
 
   ngOnInit() {
+    this.exercises = this.exercises ? this.exercises : this._trainingService.getAvailableExercises();
   }
 
   onStartClick = (typeddl) => {
-    this.training = this.training ? this.training : new Training();
-    this.training.type = typeddl.value;
+    this.training = {
+      id : Guid.create().toString(),
+      name : typeddl.value
+    };
     this.trainingStart.emit(this.training);
   }
 }

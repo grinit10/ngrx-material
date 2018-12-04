@@ -4,10 +4,7 @@
     <mat-card-content>
       <mat-form-field>
         <mat-select placeholder="Select me" #typeddl>
-          <mat-option value="crunches">Crunches</mat-option>
-          <mat-option value="touch-toes">Touch Toes</mat-option>
-          <mat-option value="single-lunges">Single Lunges</mat-option>
-          <mat-option value="burpees">Burpees</mat-option>
+          <mat-option *ngFor="let exrcise of exercises"  value="exrcise.id">{{exrcise.name}}</mat-option>
         </mat-select>
         <mat-hint>select a type of training</mat-hint>
       </mat-form-field>

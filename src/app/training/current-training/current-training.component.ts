@@ -1,5 +1,5 @@
 import { DialogpopupComponent } from './../../shared/components/dialogpopup/dialogpopup.component';
-import { Training } from './../../shared/models/Training';
+import { Exercise } from '../../shared/models/Exercise';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
@@ -10,8 +10,8 @@ import { MatDialog } from '@angular/material';
 })
 export class CurrentTrainingComponent implements OnInit {
 
-  @Input() training: Training;
-  @Output() trainingStopped: EventEmitter<Training> = new EventEmitter<Training>();
+  @Input() training: Exercise;
+  @Output() trainingStopped: EventEmitter<Exercise> = new EventEmitter<Exercise>();
 
   public progress = 0;
 

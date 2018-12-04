@@ -1,3 +1,4 @@
+import { TrainingService } from './training/training.service';
 import { AuthService } from './auth/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +18,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { DialogpopupComponent } from './shared/components/dialogpopup/dialogpopup.component';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,7 @@ import { DialogpopupComponent } from './shared/components/dialogpopup/dialogpopu
     ReactiveFormsModule
   ],
   exports: [MaterialModule],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard, TrainingService],
   bootstrap: [AppComponent],
   entryComponents: [DialogpopupComponent]
 })

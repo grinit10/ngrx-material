@@ -18,7 +18,7 @@
           <a routerLink='/training' fxLayoutGap="20px">Trainings</a>
         </li>
         <li *ngIf="isAuth">
-          <a>Logout</a>
+          <a (click)="logout()" >Logout</a>
         </li>
       </ul>
     </div>
