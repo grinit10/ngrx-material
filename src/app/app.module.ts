@@ -1,12 +1,11 @@
-import { TrainingService } from './training/training.service';
-import { AuthService } from './auth/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from './material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { AppComponent } from './app.component';
+import { MaterialModule } from './material.module';
 import { SignupComponent } from './auth/signup/signup.component';
 import { LoginComponent } from './auth/login/login.component';
 import { TrainingComponent } from './training/training.component';
@@ -14,11 +13,13 @@ import { CurrentTrainingComponent } from './training/current-training/current-tr
 import { NewTrainingComponent } from './training/new-training/new-training.component';
 import { PastTrainingsComponent } from './training/past-trainings/past-trainings.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { AppRoutingModule } from './app.routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
-import { DialogpopupComponent } from './shared/components/dialogpopup/dialogpopup.component';
-import { AuthGuard } from './auth/auth.guard';
+import { StopTrainingComponent } from './training/current-training/stop-training.component';
+import { AuthService } from './auth/auth.service';
+import { TrainingService } from './training/training.service';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { AuthGuard } from './auth/auth.guard';
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
-    DialogpopupComponent
+    StopTrainingComponent
   ],
   imports: [
     BrowserModule,
@@ -43,9 +44,8 @@ import { AuthGuard } from './auth/auth.guard';
     FormsModule,
     ReactiveFormsModule
   ],
-  exports: [MaterialModule],
-  providers: [AuthService, AuthGuard, TrainingService],
+  providers: [AuthService, TrainingService],
   bootstrap: [AppComponent],
-  entryComponents: [DialogpopupComponent]
+  entryComponents: [StopTrainingComponent]
 })
 export class AppModule { }

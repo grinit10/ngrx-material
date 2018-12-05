@@ -1,11 +1,6 @@
-<section fxLayout fxLayoutAlign='center'>
-  <mat-card fxFlex.xs='100%' fxFlex='400px' fxLayout='column' fxLayoutAlign='center center'>
-    <mat-card-title>{{training.name}} is in progress</mat-card-title>
-    <mat-card-content>
-      <mat-progress-spinner color='accent' mode='determinate' [value]='progress'></mat-progress-spinner>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color='warn' (click)="openDialog()">Cancel</button>
-    </mat-card-actions>
-  </mat-card>
+<section class="current-training" fxLayout="column" fxLayoutAlign="center center">
+    <mat-progress-spinner mode="determinate" [value]="progress"></mat-progress-spinner>
+    <h1>{{ progress }}%</h1>
+    <p>Keep on going, you can do it!</p>
+    <button mat-raised-button color="accent" (click)="onStop()">Stop</button>
 </section>

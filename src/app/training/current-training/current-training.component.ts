@@ -1,7 +1,7 @@
-import { DialogpopupComponent } from './../../shared/components/dialogpopup/dialogpopup.component';
-import { Exercise } from '../../shared/models/Exercise';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
+
+import { StopTrainingComponent } from './stop-training.component';
 import { TrainingService } from '../training.service';
 
 @Component({
@@ -10,38 +10,39 @@ import { TrainingService } from '../training.service';
   styleUrls: ['./current-training.component.css']
 })
 export class CurrentTrainingComponent implements OnInit {
+  progress = 0;
+  timer: number;
 
-  training: Exercise;
-  duration = 0;
-  calories = 0;
-
-  @Output() trainingStopped: EventEmitter<Exercise> = new EventEmitter<Exercise>();
-
-  public progress = 0;
-
-  constructor(public dialog: MatDialog, private _trainingService: TrainingService) {
-  }
+  constructor(private dialog: MatDialog, private trainingService: TrainingService) {}
 
   ngOnInit() {
-    this.training = this._trainingService.runningExercise;
-    setInterval(() => {
-      if (this.duration === this.training.duration) {
-        this._trainingService.completeExercise();
-      }
-      this.duration++;
-      this.calories += this.training.calories / this.training.duration * this.duration;
-      this.progress += 100 / this.training.duration;
-    }, 1000);
+    this.startOrResumeTimer();
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogpopupComponent, {
-      data: 'Are you sure you want to stop training?'
+  startOrResumeTimer() {
+    const step = this.trainingService.getRunningExercise().duration / 100 * 1000;
+    this.timer = setInterval(() => {
+      this.progress = this.progress + 1;
+      if (this.progress >= 100) {
+        this.trainingService.completeExercise();
+        clearInterval(this.timer);
+      }
+    }, step);
+  }
+
+  onStop() {
+    clearInterval(this.timer);
+    const dialogRef = this.dialog.open(StopTrainingComponent, {
+      data: {
+        progress: this.progress
+      }
     });
 
-    dialogRef.afterClosed().subscribe(message => {
-      if (message) {
-        this._trainingService.cancelExercise(this.duration, this.calories);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.trainingService.cancelExercise(this.progress);
+      } else {
+        this.startOrResumeTimer();
       }
     });
   }
