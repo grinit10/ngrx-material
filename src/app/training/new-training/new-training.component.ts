@@ -21,11 +21,5 @@ export class NewTrainingComponent implements OnInit {
     this.exercises = this.exercises ? this.exercises : this._trainingService.getAvailableExercises();
   }
 
-  onStartClick = (typeddl) => {
-    this.training = {
-      id : Guid.create().toString(),
-      name : typeddl.value
-    };
-    this.trainingStart.emit(this.training);
-  }
+  onStartClick = (typeddl) => this._trainingService.startExercise(typeddl.value);
 }

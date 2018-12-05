@@ -1,20 +1,27 @@
+import { TrainingService } from './training.service';
 import { Exercise } from '../shared/models/Exercise';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-training',
   templateUrl: './training.component.html',
   styleUrls: ['./training.component.css']
 })
-export class TrainingComponent implements OnInit {
+export class TrainingComponent implements OnInit, OnDestroy {
   public newTraining: Exercise;
+  private startTrainingSubscription: Subscription;
 
-  constructor() {}
+  constructor(private _trainingService: TrainingService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.startTrainingSubscription = this._trainingService.startTraingEvent.subscribe(
+      exercise => this.newTraining = exercise
+    );
+  }
 
-  addNewTraining = (training: Exercise) => {
-    this.newTraining = training;
+  ngOnDestroy() {
+    this.startTrainingSubscription.unsubscribe();
   }
 
   stoppedTraining = (training: Exercise) => {
