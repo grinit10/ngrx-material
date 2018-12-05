@@ -1,7 +1,7 @@
 import { TrainingService } from './../training.service';
 import { Exercise } from '../../shared/models/Exercise';
 import { Component, OnInit, Output, EventEmitter, ElementRef } from '@angular/core';
-import { Guid } from 'guid-typescript';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-new-training',
@@ -21,5 +21,5 @@ export class NewTrainingComponent implements OnInit {
     this.exercises = this.exercises ? this.exercises : this._trainingService.getAvailableExercises();
   }
 
-  onStartClick = (typeddl) => this._trainingService.startExercise(typeddl.value);
+  onStartClick = (form: NgForm) => this._trainingService.startExercise(form.value.exercise);
 }

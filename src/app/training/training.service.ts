@@ -2,9 +2,11 @@ import { EventEmitter } from '@angular/core';
 import { Exercise } from '../shared/models/Exercise';
 
 export class TrainingService {
-  runningExercise: Exercise;
-
+  runningExercise: Exercise = null;
+  pastExercises: Exercise[] = [];
   startTraingEvent: EventEmitter<Exercise> = new EventEmitter<Exercise>();
+  stopTraingEvent: EventEmitter<void> = new EventEmitter<void>();
+  completeTraingEvent: EventEmitter<void> = new EventEmitter<void>();
 
   private availabeExercises: Exercise[] = [
     { id: 'crunches', name: 'Crunches', duration: 30, calories: 8 },
@@ -15,6 +17,17 @@ export class TrainingService {
 
   getAvailableExercises = () => this.availabeExercises.slice();
 
-  public startExercise = (id: string) => this.startTraingEvent.emit(this.availabeExercises.find(ex => ex.id === id));
+  public startExercise = (id: string) => this.startTraingEvent.emit(this.runningExercise = this.availabeExercises.find(ex => ex.id === id));
 
+  public completeExercise = () => {
+    this.pastExercises.push({...this.runningExercise, date: new Date(), state: 'completed'});
+    this.runningExercise = null;
+    this.completeTraingEvent.emit();
+  }
+
+  public cancelExercise = (duration: number, calories: number) => {
+    this.pastExercises.push({...this.runningExercise, date: new Date(), state: 'cancelled', duration: duration, calories: calories});
+    this.runningExercise = null;
+    this.stopTraingEvent.emit();
+  }
 }

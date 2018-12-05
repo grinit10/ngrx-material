@@ -9,8 +9,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./training.component.css']
 })
 export class TrainingComponent implements OnInit, OnDestroy {
-  public newTraining: Exercise;
+  public newTraining: Exercise = null;
   private startTrainingSubscription: Subscription;
+  private stopTrainingSubscription: Subscription;
+  private completerainingSubscription: Subscription;
 
   constructor(private _trainingService: TrainingService) {}
 
@@ -18,10 +20,20 @@ export class TrainingComponent implements OnInit, OnDestroy {
     this.startTrainingSubscription = this._trainingService.startTraingEvent.subscribe(
       exercise => this.newTraining = exercise
     );
+
+    this.stopTrainingSubscription = this._trainingService.stopTraingEvent.subscribe(
+      () => this.newTraining = null
+    );
+
+    this.completerainingSubscription = this._trainingService.completeTraingEvent.subscribe(
+      () => this.newTraining = null
+    );
   }
 
   ngOnDestroy() {
     this.startTrainingSubscription.unsubscribe();
+    this.stopTrainingSubscription.unsubscribe();
+    this.completerainingSubscription.unsubscribe();
   }
 
   stoppedTraining = (training: Exercise) => {

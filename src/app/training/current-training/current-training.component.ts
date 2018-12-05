@@ -1,7 +1,8 @@
 import { DialogpopupComponent } from './../../shared/components/dialogpopup/dialogpopup.component';
 import { Exercise } from '../../shared/models/Exercise';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { TrainingService } from '../training.service';
 
 @Component({
   selector: 'app-current-training',
@@ -10,18 +11,27 @@ import { MatDialog } from '@angular/material';
 })
 export class CurrentTrainingComponent implements OnInit {
 
-  @Input() training: Exercise;
+  training: Exercise;
+  duration = 0;
+  calories = 0;
+
   @Output() trainingStopped: EventEmitter<Exercise> = new EventEmitter<Exercise>();
 
   public progress = 0;
 
-  constructor(public dialog: MatDialog) {
-    setInterval(() => {
-      this.progress += 5;
-    }, 1000);
+  constructor(public dialog: MatDialog, private _trainingService: TrainingService) {
   }
 
   ngOnInit() {
+    this.training = this._trainingService.runningExercise;
+    setInterval(() => {
+      if (this.duration === this.training.duration) {
+        this._trainingService.completeExercise();
+      }
+      this.duration++;
+      this.calories += this.training.calories / this.training.duration * this.duration;
+      this.progress += 100 / this.training.duration;
+    }, 1000);
   }
 
   openDialog(): void {
@@ -30,8 +40,9 @@ export class CurrentTrainingComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(message => {
-      this.training = message ? null : this.training;
-      this.trainingStopped.emit(this.training);
+      if (message) {
+        this._trainingService.cancelExercise(this.duration, this.calories);
+      }
     });
   }
 }
